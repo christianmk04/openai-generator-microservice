@@ -3,9 +3,9 @@ from flask_cors import CORS
 import requests
 import os 
 import openai
-openai.api_type = "azure"
-openai.api_base = "https://gptsmu.openai.azure.com/"
-openai.api_version = "2023-03-15-preview"
+# openai.api_type = "azure"
+# openai.api_base = "https://gptsmu.openai.azure.com/"
+# openai.api_version = "2023-03-15-preview"
 
 app = Flask(__name__)
 CORS(app)
@@ -18,7 +18,7 @@ def generate_cs(user_api_key):
 
     openai.api_key = user_api_key
     completion = openai.ChatCompletion.create(
-        engine="gpt35",
+        model = "gpt-3.5-turbo",
         messages=request_data['messages'],
         max_tokens=2048,
         temperature=1.1,
@@ -83,7 +83,7 @@ def api_get_cs(api_key, main_topic, sub_topic):
     # GENERATE CHAT COMPLETION
     try:
         completion = openai.ChatCompletion.create(
-            engine = "gpt35",
+            model = "gpt-3.5-turbo",
             messages = [
                 {"role": "system", "content": "You are an instructor teaching an Agile and DevOps course, your job is to provide questions and answers for students for the purpose of assessing students purposes. You are currently chatting with a Professor of the course, who is asking you for questions and answers about Agile and DevOps."},
                 {"role": "user", "content": f"Can you provide me with a sample case study about {main_topic} that focuses on {sub_topic}? Skip the pleasantries of acknowledging the user and start generating the case study immediately. (Meaning, do not start with 'Sure, here's a case study for...')."},
@@ -168,7 +168,7 @@ def api_get_qa(api_key, sub_topic):
     # GENERATE CHAT COMPLETION
     try:
         completion = openai.ChatCompletion.create(
-            engine = "gpt35",
+            model = "gpt-3.5-turbo",
             messages = [
                 {"role": "system", "content": "You are an instructor teaching an Agile and DevOps course, your job is to provide questions and answers for students for the purpose of assessing students purposes. You are currently chatting with a Professor of the course, who is asking you for questions and answers about Agile and DevOps. "},
                 {"role": "user", "content": f"Can you provide me with sample questions and answers about {sub_topic} under Agile/DevOps? Provide the questions and answers in a way where it will require more critical thinking. Format your response in this way:\n\n 'Questions: \n1.\n2.\n3. \n\n Answers: \n1.\n2.\n3.' \n\n Skip the pleasantries of acknowledging the user and start generating the questions and answers immediately. (Meaning, do not start with 'Sure, here's a questions and answers for...')"},
@@ -267,7 +267,7 @@ def api_get_csqa(api_key, main_topic, sub_topic):
     # GENERATE CHAT COMPLETION
     try:
         completion = openai.ChatCompletion.create(
-            engine = "gpt35",
+            model = "gpt-3.5-turbo",
             messages = [
                 {"role": "system", "content": "You are an instructor teaching an Agile and DevOps course, your job is to provide questions and answers for students for the purpose of assessing students purposes. You are currently chatting with a Professor of the course, who is asking you for questions and answers about Agile and DevOps. "},
                 # REFERENCE PROMPT ENGINEERING FOR CASE STUDY
