@@ -173,7 +173,7 @@ def api_get_qa(api_key, sub_topic):
                 {"role": "system", "content": "You are an instructor teaching an Agile and DevOps course, your job is to provide questions and answers for students for the purpose of assessing students purposes. You are currently chatting with a Professor of the course, who is asking you for questions and answers about Agile and DevOps. "},
                 {"role": "user", "content": f"Can you provide me with sample questions and answers about {sub_topic} under Agile/DevOps? Provide the questions and answers in a way where it will require more critical thinking. Format your response in this way:\n\n 'Questions: \n1.\n2.\n3. \n\n Answers: \n1.\n2.\n3.' \n\n Skip the pleasantries of acknowledging the user and start generating the questions and answers immediately. (Meaning, do not start with 'Sure, here's a questions and answers for...')"},
                 {"role": "assistant", "content": f"Questions:\n{questions_string}\nAnswers:\n{answers_string}"},
-                {"role": "user", "content": "Please provide me with 10 more questions and answers following the same format as what you have just generated. Skip the pleasantries of acknowledging the user and start generating the questions and answers immediately. (Meaning, do not start with 'Sure, here's a questions and answers for...')"},
+                {"role": "user", "content": "Please provide me with 5 more questions and answers following the same format as what you have just generated. Skip the pleasantries of acknowledging the user and start generating the questions and answers immediately. (Meaning, do not start with 'Sure, here's a questions and answers for...')"},
             ],
             temperature = 1.1,
             max_tokens = 2048,
