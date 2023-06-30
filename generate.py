@@ -61,12 +61,12 @@ FUNCTIONS IN THIS SECTION INCLUDE:
 '''
 
 # ENDPOINTS
-get_case_study_endpoint = "https://generator-microservice.onrender.com/get_case_study"
-upload_cs_endpoint = "https://generator-microservice.onrender.com/upload_cs"
-get_ind_questions_endpoint = "https://generator-microservice.onrender.com/get_ind_questions"
-upload_ind_qa_endpoint = "https://generator-microservice.onrender.com/upload_ind_qa"
-get_csqa_endpoint = "https://generator-microservice.onrender.com/get_csqa/"
-upload_qa_for_cs_endpoint = "https://generator-microservice.onrender.com/upload_qa_for_cs"
+get_case_study_endpoint = "https://urp-resource-uploader.onrender.com/get_case_study"
+upload_cs_endpoint = "https://urp-resource-uploader.onrender.com/upload_cs"
+get_ind_questions_endpoint = "https://urp-resource-uploader.onrender.com/get_ind_questions"
+upload_ind_qa_endpoint = "https://urp-resource-uploader.onrender.com/upload_ind_qa"
+get_csqa_endpoint = "https://urp-resource-uploader.onrender.com/get_csqa/"
+upload_qa_for_cs_endpoint = "https://urp-resource-uploader.onrender.com/upload_qa_for_cs"
 
 # API ROUTES FOR OTHER APPLICATIONS TO CALL AND USE 
 
