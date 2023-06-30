@@ -61,12 +61,12 @@ FUNCTIONS IN THIS SECTION INCLUDE:
 '''
 
 # ENDPOINTS
-get_case_study_endpoint = "https://urp-resource-uploader.onrender.com/get_case_study"
-upload_cs_endpoint = "https://urp-resource-uploader.onrender.com/upload_cs"
-get_ind_questions_endpoint = "https://urp-resource-uploader.onrender.com/get_ind_questions"
-upload_ind_qa_endpoint = "https://urp-resource-uploader.onrender.com/upload_ind_qa"
-get_csqa_endpoint = "https://urp-resource-uploader.onrender.com/get_csqa/"
-upload_qa_for_cs_endpoint = "https://urp-resource-uploader.onrender.com/upload_qa_for_cs"
+get_case_study_endpoint = "https://generator-microservice.onrender.com/get_case_study"
+upload_cs_endpoint = "https://generator-microservice.onrender.com/upload_cs"
+get_ind_questions_endpoint = "https://generator-microservice.onrender.com/get_ind_questions"
+upload_ind_qa_endpoint = "https://generator-microservice.onrender.com/upload_ind_qa"
+get_csqa_endpoint = "https://generator-microservice.onrender.com/get_csqa/"
+upload_qa_for_cs_endpoint = "https://generator-microservice.onrender.com/upload_qa_for_cs"
 
 # API ROUTES FOR OTHER APPLICATIONS TO CALL AND USE 
 
@@ -74,7 +74,6 @@ upload_qa_for_cs_endpoint = "https://urp-resource-uploader.onrender.com/upload_q
 @app.route('/api_get_cs', methods=['GET', "POST"])
 def api_get_cs():
     input_data = request.get_json()
-    api_key = input_data["api_key"]
     main_topic = input_data["main_topic"]
     sub_topic = input_data["sub_topic"]
 
@@ -104,8 +103,6 @@ def api_get_cs():
     json_data = response.json()
     ref_case_study = json_data["data"]["content"]
 
-    if api_key == '':
-        return jsonify({"error": "Unable to proceed. Please enter in API key!"})
     
     # GENERATE CHAT COMPLETION
     try:
@@ -151,15 +148,12 @@ def api_get_cs():
         }
     )
 
-
-
 # API TO GENERATE QUESTIONS AND ANSWERS
 @app.route('/api_get_qa', methods=['POST'])
 def api_get_qa():
 
     input_data = request.get_json()
     sub_topic = input_data["sub_topic"]
-    api_key = input_data["api_key"]
 
     sub_topics = ["Automation", "Software Design", "Versioning", "Software Process", "XP", "Support", "Testing", "Security"]
 
@@ -194,9 +188,6 @@ def api_get_qa():
         questions_string += f'{i+1}. ' + data[i]["question"] + "\n"
         answers_string += f'{i+1}. ' + data[i]["answer"] + "\n"
 
-    if api_key == '':
-        return jsonify({"error": "Unable to proceed. Please enter in API key!"})
-    
     # GENERATE CHAT COMPLETION
     try:
         completion = openai.ChatCompletion.create(
@@ -205,7 +196,7 @@ def api_get_qa():
                 {"role": "system", "content": "You are an instructor teaching an Agile and DevOps course, your job is to provide questions and answers for students for the purpose of assessing students purposes."},
                 {"role": "user", "content": f"Provide sample questions and answers about {sub_topic} under Agile/DevOps. Follow this format for the response:\n\n 'Questions: \n1.\n2.\n3. \n\n Answers: \n1.\n2.\n3.' \n\n Skip the pleasantries of acknowledging the user and start generating the questions and answers immediately. (Meaning, do not start with 'Sure, here's a questions and answers for...')"},
                 {"role": "assistant", "content": f"Questions:\n{questions_string}\nAnswers:\n{answers_string}"},
-                {"role": "user", "content": "Provide 10 more questions and answers following the same format as what you have just generated. Skip the pleasantries of acknowledging the user and start generating the questions and answers immediately. (Meaning, do not start with 'Sure, here's a questions and answers for...')"},
+                {"role": "user", "content": "Provide 5 more questions and answers following the same format as what you have just generated. Skip the pleasantries of acknowledging the user and start generating the questions and answers immediately. (Meaning, do not start with 'Sure, here's a questions and answers for...')"},
             ],
             temperature = 0.7,
             max_tokens = 2048,
@@ -303,7 +294,6 @@ def api_get_csqa():
 
     input_data = request.get_json()
 
-    api_key = input_data["api_key"]
     main_topic = input_data["main_topic"]
     sub_topic = input_data["sub_topic"]
 
@@ -335,9 +325,6 @@ def api_get_csqa():
         questions_string += f'{i+1}. ' + questions[i] + "\n"
         answers_string += f'{i+1}. ' + answers[i] + "\n"
 
-    if api_key == '':
-        return jsonify({"error": "Unable to proceed. Please enter in API key!"})
-
     # GENERATE CHAT COMPLETION
     try:
         completion = openai.ChatCompletion.create(
@@ -350,7 +337,7 @@ def api_get_csqa():
                 # REFERENCE PROMPT ENGINEERING FOR QUESTIONS AND ANSWERS
                 {"role": "user", "content": f"Can you provide me with sample questions and answers about the case study above? Where the questions are about {main_topic}, focusing on {sub_topic}? Provide the questions and answers in a way where it will require more critical thinking. Format your response in this way:\n\n 'Questions: \n1.\n2.\n3. \n\n Answers: \n1.\n2.\n3.' \n\n Skip the pleasantries of acknowledging the user and start generating the questions and answers immediately. (Meaning, do not start with 'Sure, here's a case study/questions and answers for...')"},
                 {"role": "assistant", "content": f"Questions:\n{questions_string}\nAnswers:\n{answers_string}"},
-                {"role": "user", "content": f"Please provide me with another case study, and 10 sample questions and sample answers for the case study above. Have the case study, questions and answers be about {main_topic} which focuses on {sub_topic}. Follow the same format as what you have just generated, such as denoted in the triple apostrophe delimiters: \n\n ''' Case Study:\n (Generated Case Study)\n\nQuestions: \n1.\n2.\n3.\n\n Answers:\n1.\n2.\n3.\n\n ''' \n\n Skip the pleasantries of acknowledging the user and start generating the questions and answers immediately. (Meaning, do not start with 'Sure, here's a case study/questions and answers for...')"},
+                {"role": "user", "content": f"Please provide me with another case study, and 5 sample questions and sample answers for the case study above. Have the case study, questions and answers be about {main_topic} which focuses on {sub_topic}. Follow the same format as what you have just generated, such as denoted in the triple apostrophe delimiters: \n\n ''' Case Study:\n (Generated Case Study)\n\nQuestions: \n1.\n2.\n3.\n\n Answers:\n1.\n2.\n3.\n\n ''' \n\n Skip the pleasantries of acknowledging the user and start generating the questions and answers immediately. (Meaning, do not start with 'Sure, here's a case study/questions and answers for...')"},
             ],
             temperature = 1.1,
             max_tokens = 2048,
